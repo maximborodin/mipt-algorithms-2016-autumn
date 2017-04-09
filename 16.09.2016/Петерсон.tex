@@ -1,0 +1,38 @@
+\documentclass[12pt]{article}
+\usepackage[cp1251]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amssymb,amsmath}
+\textheight=24cm            % высота текста
+\textwidth=16cm             % ширина текста
+\oddsidemargin=0pt          % отступ от левого края
+\topmargin=-1.5cm           % отступ от верхнего края
+\parindent=24pt             % абзацный отступ
+\parskip=0pt                % интервал между абзацами
+\tolerance=2000             % терпимость к "жидким" строкам
+\flushbottom                % выравнивание высоты страниц
+\def\baselinestretch{1.5}   % печать с большим интервалом
+%\everymath{\displaystyle}%
+
+\begin{document}
+Домашнее заданиие по АиСД 16.09.2016
+
+студента 594 группы Бородина Максима
+\newline
+
+{\bf Алгоритм Петерсона}
+
+Если функция будет переписана следующим образом
+\begin{verbatim}
+	 void lock(int t) {
+   	     victim.store(t);
+         want[t].store(true);
+         while (want[1 - t].load() && victim.load() == t) {
+             // wait
+         }
+     }
+\end{verbatim}
+, то код не будет гарантировать взаимное исключение. Приведём следующий алгоритм:
+первым заходит поток $0$ и записывает в victim значение $0$. После этого последовательно исполняется поток $1$: записывает в victim значение $1$, возводит флажок want[1], благополучно минует цикл, потому что want[0].load() == false и попадает в critical section,
+После этого активируется поток $0$: возводит флаг want[0], и так же проходит цикл потому что victim.load() == 1. Оба потока попадают в critical section
+
+\end{document}

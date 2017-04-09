@@ -1,0 +1,38 @@
+\lstset{language=C++,
+                basicstyle=\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+}
+\begin{lstlisting}
+    void moveLeft(Semaphore& sem1, Semaphore& sem2)
+{
+	for (int i = 0; i < 10; ++i) {
+		sem2.wait();
+        std::cout << "right" << std::endl;
+		sem1.post();
+	}
+}
+
+void moveRight(Semaphore& sem2, Semaphore& sem1)
+{
+    for (int i = 0;i < 10;++i) {
+        sem1.wait();
+        std::cout << "left" << std::endl;
+        sem2.post();
+    }
+};
+
+int main()
+{
+    Semaphore semaphore1;
+    Semaphore semaphore2;
+	semaphore1.post();
+	std::thread t1(moveLeft, std::ref(semaphore1), std::ref(semaphore2));
+	std::thread t2(moveRight, std::ref(semaphore2), std::ref(semaphore1));
+	t1.join();
+	t2.join();
+	return 0;
+}
+\end{lstlisting}

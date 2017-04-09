@@ -1,0 +1,34 @@
+\documentclass[12pt]{article}
+\usepackage[cp1251]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amssymb,amsmath}
+\textheight=24cm            % высота текста
+\textwidth=16cm             % ширина текста
+\oddsidemargin=0pt          % отступ от левого края
+\topmargin=-1.5cm           % отступ от верхнего края
+\parindent=24pt             % абзацный отступ
+\parskip=0pt                % интервал между абзацами
+\tolerance=2000             % терпимость к "жидким" строкам
+\flushbottom                % выравнивание высоты страниц
+\def\baselinestretch{1.5}   % печать с большим интервалом
+\ifx\pdfoutput\undefined
+\usepackage{graphicx}
+\else
+\usepackage[pdftex]{graphicx}
+\fi
+\usepackage{epstopdf}
+\epstopdfsetup{outdir=./}
+%\everymath{\displaystyle}%
+
+\begin{document}
+Домашнее задание 07.10.2016 АиСД
+
+студента 594 группы Бородина Максима
+\newline
+
+{\bf Блокирующий флаг}
+
+Код не является корректным: рассмотрим ситуацию, когда какой-то поток зашёл в $while$ в $blocking\_flag.wait()$, но не успел "заснуть" на $ready\_cond\_.wait(lock);$ и планировщик переключает его. После этого вызывается $blocking\_flag.set()$, то есть все "уснувшие" на условной переменной потоки будятся. Теперь если планировщик даст время на исполнение потоку, о котором шла речь вначале, то он "заснёт" на $ready\_cond\_.wait(lock)$,  и его, возможно, уже никогда не разбудят (если больше не будет вызываться $blocking\_flag.set())$.
+
+
+\end{document}
